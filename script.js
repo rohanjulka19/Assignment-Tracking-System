@@ -1,5 +1,5 @@
 let sidebar = document.getElementById("sidebar-li");
-let flag = 0 ;
+let flag = 1 ;
 //let subjects = ["subject1", "subject2", "subject3" , "subject4"];
 //let subject1 = ["a1","a2","a3"];
 
@@ -33,7 +33,25 @@ subjects = [
         }]
     }
 ];
+addEvents();
 
+function addEvents() {
+    subjects = document.getElementsByClassName("subject-li");
+    for(i = 0 ; i<subjects.length; i++ ) {
+        subjects[i].addEventListener("click", function() {
+        if(this.getElementsByClassName("assignments-li")[0].style.display === "block" ) {
+            this.getElementsByClassName("assignments-li")[0].style.display = "none" ;
+            this.getElementsByClassName("li-button")[0].innerHTML = "+" ;
+        } else  {
+            this.getElementsByClassName("assignments-li")[0].style.display = "block" ;
+            this.getElementsByClassName("li-button")[0].innerHTML = "-" ;
+        }
+         
+     
+        });
+    }
+}
+/*
 addSubjects(subjects);
 stretch();
 
@@ -48,14 +66,16 @@ function addSubjects(subjects) {
 
 function stretch() {
     let buttons = sidebar.getElementsByTagName("button");
-  
-    
-    for (button of buttons) {
-        button.addEventListener("click", expand(this));
-    }
+
+    for (button of buttons) { // change the iterator not working on Microsoft Edge
+        button.addEventListener("click",function(){
+            expand(this);
+    });
+  }
 }
 
 function expand(obj) {
+    alert(obj);
     value = obj.value;
     console.log(value);
     let list = sidebar.getElementsByTagName("li")[value];
@@ -68,7 +88,9 @@ function expand(obj) {
         list.innerHTML += "</ul>";
         flag = 1 ;
     } else {
+        alert("else called");
         list.innerHTML = subjects[value].name ;
         flag = 0 ;
     }
 }
+*/
