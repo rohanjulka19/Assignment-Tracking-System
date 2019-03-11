@@ -38,59 +38,19 @@ addEvents();
 function addEvents() {
     subjects = document.getElementsByClassName("subject-li");
     for(i = 0 ; i<subjects.length; i++ ) {
-        subjects[i].addEventListener("click", function() {
-        if(this.getElementsByClassName("assignments-li")[0].style.display === "block" ) {
-            this.getElementsByClassName("assignments-li")[0].style.display = "none" ;
-            this.getElementsByClassName("li-button")[0].innerHTML = "+" ;
+        subjects[i].getElementsByClassName("subjects")[0].addEventListener("click", function() {
+            let button = this.getElementsByClassName("li-button")[0];
+            let value = button.value ;
+            let sub_list =  document.getElementsByClassName("subject-li")[value].getElementsByClassName("assignments-li")[0];
+        if(sub_list.style.display === "block" ) {
+            sub_list.style.display = "none" ;
+            button.innerHTML = "+" ;
         } else  {
-            this.getElementsByClassName("assignments-li")[0].style.display = "block" ;
-            this.getElementsByClassName("li-button")[0].innerHTML = "-" ;
+            sub_list.style.display = "block" ;
+            button.innerHTML = "-" ;
         }
          
      
         });
     }
 }
-/*
-addSubjects(subjects);
-stretch();
-
-function addSubjects(subjects) {
-    let index = 0 ;
-    for (subject of subjects) {
-        sidebar.innerHTML += "<li><button value = '" + index + "'>+</button>" + subject.name + "</li>";
-        index++ ;
-    }
-}
-
-
-function stretch() {
-    let buttons = sidebar.getElementsByTagName("button");
-
-    for (button of buttons) { // change the iterator not working on Microsoft Edge
-        button.addEventListener("click",function(){
-            expand(this);
-    });
-  }
-}
-
-function expand(obj) {
-    alert(obj);
-    value = obj.value;
-    console.log(value);
-    let list = sidebar.getElementsByTagName("li")[value];
-
-    if(flag == 0) {
-        list.innerHTML += "<ul>" ;
-        for( assingment of subjects[value].assignments) {
-            list.innerHTML += "<li>" + assingment.name + "</li>";
-        }
-        list.innerHTML += "</ul>";
-        flag = 1 ;
-    } else {
-        alert("else called");
-        list.innerHTML = subjects[value].name ;
-        flag = 0 ;
-    }
-}
-*/
