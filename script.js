@@ -70,4 +70,40 @@ function addEventsToSideBar() {
      
         });
     }
+
+   document.getElementById("create-assignment").addEventListener("click", function() {
+       createNewAssignment();
+   });
+}
+
+function createNewAssignment() {
+    let subjects_list = [];
+    heading = document.getElementById("heading");
+    heading.innerHTML = "<a href = '#'>View</a> | <a href = '#'> Submissions </a>";
+
+    for(index in data) {
+        subjects_list.push(data[index].name);
+    }
+
+    main_block = document.getElementById("main-block");  
+    main_block.innerHTML = "<label for = 'subject-chooser'>Subject</label> <select id = 'subject-chooser' class = 'subject-chooser'></select>"
+    subject_chooser = main_block.getElementsByClassName("subject-chooser")[0];
+    for(i = 0  ; i<subjects_list.length; i++) {
+        subject_chooser.innerHTML += "<option value = " + subjects_list[i] + ">" +  subjects_list[i] + "</option>"
+    }
+
+    main_block.innerHTML += "<label>Issued " + getDate() + "</label>"
+                            + "<label for ='submission-date'> Submission</label> <input type = 'date' id = 'submission-date' "
+                            + "class = 'submission-date'></input><br> <i class='fas fa-bold'></i><i class='fas fa-italic'></i>"
+                            + "<i class='fas fa-underline'></i> <i class='fas fa-paperclip'></i>"  
+                            +"<br><textarea rows = '26' cols = '100' class  = 'input-box' id = 'input-box' placeholder = 'Enter text'>"
+                            +"</textarea><br><button id = 'save-assignment' class = 'save-btn'>Save</button>" ;
+}
+
+function getDate() {
+    date = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+    date_arr = date.toString().split("/").reverse();
+    date_arr[0] = parseInt(date_arr[0]) + 1 ;
+    date_arr[0] = date_arr[0].toString();
+    return(date_arr.join("/")); 
 }
