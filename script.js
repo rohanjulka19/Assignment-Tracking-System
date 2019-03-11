@@ -5,8 +5,8 @@ let flag = 1 ;
 
 
 
-subjects = [
-             {
+data = {
+          1 : {
                  name : "subject1",
         teacher : "selma",
         assignments : [ {
@@ -19,7 +19,7 @@ subjects = [
             submission: "15/2/2019"
         }]
     } ,
-     {
+      2:{
         name : "subject2",
         teacher : "selma",
         assignments : [ {
@@ -32,10 +32,27 @@ subjects = [
             submission: "15/2/2019"
         }]
     }
-];
-addEvents();
+};
 
-function addEvents() {
+//addDataToSideBar();
+
+addEventsToSideBar();
+
+// Under Progress ... figure out a way to add the assingments ... priority : low 
+/*function addDataToSideBar() {
+    sidebar_element = document.getElementById("sidebar-li");
+    for(index in data ) {
+        sidebar_element.innerHTML += " <span class = 'subject-li'><li class = 'subjects'> <button class= 'li-button' value =" + (index-1) + "> + </button>"
+        + data[index].name + "</li> <ul class = 'assignments-li' id = 'assignments-li'> <li> <a href='#'>" + data[index].assignments. 
+        <ul class = "assignments-li" id = "assignments-li">
+             <li> <a href="#"> A1 </a> </li>
+             <li> <a href= "#"> A2 </a> </li>
+        </ul></span>
+     
+    }
+}*/
+
+function addEventsToSideBar() {
     subjects = document.getElementsByClassName("subject-li");
     for(i = 0 ; i<subjects.length; i++ ) {
         subjects[i].getElementsByClassName("subjects")[0].addEventListener("click", function() {
