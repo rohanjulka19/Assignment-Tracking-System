@@ -75,12 +75,15 @@ function addEventsToSideBar() {
    document.getElementById("create-assignment").addEventListener("click", function() {
        createNewAssignment();
    });
+
+   document.getElementById("assignment-1").addEventListener("click", function() {
+        openAssignment() //Experimental: should also send assignment name as parameter pin this for later...
+   });
 }
 
 function createNewAssignment() { // REMINDER : Add the feature to upload the document 
     let subjects_list = [];
-   // heading.innerHTML = "<a href = '#'>View</a> | <a href = '#'> Submissions </a>"; use in the view buttons event listener 
-    document.getElementById("heading").style.marginTop = "10px" ;
+    document.getElementById("heading").style.marginTop = "10px" ;// Refactor , line 88
     document.getElementsByClassName("line")[0].hidden = true ;
     heading = document.getElementById("heading");
     heading.innerHTML = "Assignment"
@@ -123,4 +126,43 @@ function getDate() {
     date_arr[0] = parseInt(date_arr[0]) + 1 ;
     date_arr[0] = date_arr[0].toString();
     return(date_arr.join("/")); 
+}
+
+function openAssignment() {// Issue : calling open assignment after creating new assignment changes layout 
+    heading = document.getElementById("heading");
+    heading.innerHTML = "<a href = '#' id = 'view' >View</a> | <a href = '#' id = 'submissions'> Submissions </a>";
+
+    document.getElementById('view').addEventListener("click", function() {
+        viewAssignment();
+    });
+    document.getElementById('submissions').addEventListener("click", function() {
+        viewAssignmentSubmissions();
+    });
+    
+    viewAssignment();
+}
+
+function viewAssignment() {
+    main_block = document.getElementById("main-block");
+    main_block.innerHTML = "Under construction";
+}
+
+function viewAssignmentSubmissions() {
+    main_block = document.getElementById("main-block");
+    main_block.innerHTML = "<div class = 'submission-details'>"
+                         + "<span class = 'submission-disp'>Name </span> <span"
+                         + " class = 'submission-disp'>Assignment-1</span><br>"
+                         +"<span class = 'submission-disp' >Subject </span>"
+                         +"<span class = 'submission-disp'>Subject-1 </span><br>"
+                         +"<span class = 'submission-disp'>Issued</span> " 
+                         + "<span>10/03/19</span>"
+                         + "<span class = 'submission-disp'> Submission</span> <span "
+                         + "class = 'submission-disp'>13/03/19</span><br>"
+                         + "</div>";
+
+    main_block.innerHTML += "<table> "
+                         + "<tr><th> S.No </th> <th>Name</th> <th>Registration No.</th> <th>View</th> <th> Marks</th></tr>"
+                         + "<tr><td> 1</td> <td>std1</td> <td>15910xxxx </td> <td><a href ='#'>view</a> </td>"
+                         +"<td> <input type = 'number' id = 'assignment-marks' style = width:50px;></input></td></tr>"
+                         +"</table>"
 }

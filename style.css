@@ -50,6 +50,16 @@
     font-size: 19px;
 }
 
+.dashboard .submission-details {
+    margin: 20px 0px 0px 60px;
+    height: auto;
+}
+
+.dashboard .submission-disp {
+   display: inline-block;
+   padding: 5px;
+}
+
 main {
     display: flex;
 }
