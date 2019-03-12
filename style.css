@@ -34,6 +34,22 @@
 .dashboard .heading {
     margin: 50px 0px 10px 30px;
 }
+
+.dashboard .form-component {
+    margin: 10px 15px 10px 0px;
+}
+
+.dashboard .assignment-form {
+    margin: 10px 0px 10px 30px;
+}
+
+.dashboard .submit-btn {
+    float: right;
+    width: auto;
+    height: auto;
+    font-size: 19px;
+}
+
 main {
     display: flex;
 }

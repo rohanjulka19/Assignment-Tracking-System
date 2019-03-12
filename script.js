@@ -1,9 +1,8 @@
+
+// Reminder : Check for browser compatibility 
+
 let sidebar = document.getElementById("sidebar-li");
 let flag = 1 ;
-//let subjects = ["subject1", "subject2", "subject3" , "subject4"];
-//let subject1 = ["a1","a2","a3"];
-
-
 
 data = {
           1 : {
@@ -76,28 +75,44 @@ function addEventsToSideBar() {
    });
 }
 
-function createNewAssignment() {
+function createNewAssignment() { // REMINDER : Add the feature to upload the document 
     let subjects_list = [];
+   // heading.innerHTML = "<a href = '#'>View</a> | <a href = '#'> Submissions </a>"; use in the view buttons event listener 
+    document.getElementById("heading").style.marginTop = "10px" ;
+    document.getElementsByClassName("line")[0].hidden = true ;
     heading = document.getElementById("heading");
-    heading.innerHTML = "<a href = '#'>View</a> | <a href = '#'> Submissions </a>";
-
+    heading.innerHTML = "Assignment"
     for(index in data) {
         subjects_list.push(data[index].name);
     }
 
-    main_block = document.getElementById("main-block");  
-    main_block.innerHTML = "<label for = 'subject-chooser'>Subject</label> <select id = 'subject-chooser' class = 'subject-chooser'></select>"
-    subject_chooser = main_block.getElementsByClassName("subject-chooser")[0];
+    main_block = document.getElementById("main-block");
+    main_block.innerHTML = "<form method = 'post' action = '#' class = 'assignment-form'></form>"
+    form = document.getElementsByClassName("assignment-form")[0];  
+    form.innerHTML ="<label for = assignment-name class = 'form-component'>Name </label> <input type = 'text' id ="
+                   + "'assignment-name' class = 'form-component'></input><br>"
+                   +"<label for = 'subject-chooser'  class = 'form-component' >Subject</label>"
+                   +"<select id = 'subject-chooser' class = 'subject-chooser form-component'></select><br>"
+                           
+    subject_chooser = form.getElementsByClassName("subject-chooser")[0];
     for(i = 0  ; i<subjects_list.length; i++) {
         subject_chooser.innerHTML += "<option value = " + subjects_list[i] + ">" +  subjects_list[i] + "</option>"
     }
 
-    main_block.innerHTML += "<label>Issued " + getDate() + "</label>"
-                            + "<label for ='submission-date'> Submission</label> <input type = 'date' id = 'submission-date' "
-                            + "class = 'submission-date'></input><br> <i class='fas fa-bold'></i><i class='fas fa-italic'></i>"
-                            + "<i class='fas fa-underline'></i> <i class='fas fa-paperclip'></i>"  
-                            +"<br><textarea rows = '26' cols = '100' class  = 'input-box' id = 'input-box' placeholder = 'Enter text'>"
-                            +"</textarea><br><button id = 'save-assignment' class = 'save-btn'>Save</button>" ;
+    form.innerHTML += "<label class = 'form-component'>Issued " 
+                   + "<span style = 'background:#ddd; padding : 2px;'>"+getDate() +"</span>" +"</label>"
+                   + "<label for ='submission-date' class = 'form-component'> Submission</label> <input type = 'date' id = 'submission-date' "
+                   + "class = 'submission-date'></input><br>"
+                   +"<br><textarea  id = 'editor' ></textarea><br><button type = 'submit' id = 'submit-assignment' class = "+"'submit-btn'>Submit</button></form>";
+
+    $(function() {
+        $('textarea#editor').froalaEditor({
+            height: 350,
+            width: 800,
+            toolbarButtons: [ 'bold', 'italic', 'underline','fontFamily', 'fontSize' ,'subscript', 'superscript', 'outdent', 'indent', 'formatOL','formatUL','insertTable','insertLink','insertImage','html']
+            
+        })
+    });
 }
 
 function getDate() {
