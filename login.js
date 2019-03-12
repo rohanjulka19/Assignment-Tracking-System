@@ -14,8 +14,9 @@ function authenticate() {
     }
 
     if(username === "admin" && password === "1234") {
-        alert("login Success");
-    } else {
+        alert("Login Success");
+        
+    } else if(username !== "" && password !== "") { // WARNING : Temporary solution figure it out later...
         alert("Login fail");
     }
 }
