@@ -1,5 +1,7 @@
 
 // Reminder : Check for browser compatibility 
+//  Reminder : Add method for dashboard 
+//  Reminder : Add contraints to the form such as required 
 
 let sidebar = document.getElementById("sidebar-li");
 let flag = 1 ;
