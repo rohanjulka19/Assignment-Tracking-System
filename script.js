@@ -30,6 +30,7 @@ data = {
     };
 
 addDataToSideBar();
+backToHome();
 addEventsToSideBar();
 addEventToNavBar(); //Experimental
 
@@ -61,7 +62,7 @@ function backToHome() {
                          +"<tr><th> S.No </th><th> Name </th><th> Class </th><th> Subject </th><th> Given on </th>"
                          +"<th> Submission </th><th> View </th></tr>"
                          +"<tr><td> 1</td><td> Assignment-1 </td><td> IT-C </td><td> Cryptography and Network Security </td>"
-                         +"<td> 12/2/18</td><td> 24/2/18</td><td> <a href='#'> view </a> </td></tr>";
+                         +"<td> 12/2/18</td><td> 24/2/18</td><td> <a href='#' > view </a> </td></tr>";
 }
 function addEventsToSideBar() {
     subjects = document.getElementsByClassName("subject-li");
