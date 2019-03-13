@@ -2,26 +2,15 @@
 // Reminder : Check for browser compatibility 
 //  Reminder : Add method for dashboard 
 //  Reminder : Add contraints to the form such as required 
+// Reminder : Create a modal to view assignments submitted by students
+
 
 let sidebar = document.getElementById("sidebar-li");
 let flag = 1 ;
 
 data = {
-          1 : {
-                 name : "subject1",
-        teacher : "selma",
-        assignments : [ {
-            name : "a1",
-            issuedOn : "1/2/2019",
-            submission: "6/2/2019"
-        }, {
-            name : "a2",
-            issuedOn : "10/2/2019",
-            submission: "15/2/2019"
-        }]
-    } ,
-      2:{
-        name : "subject2",
+          0 : {
+                 name : "Subject-1",
         teacher : "selma",
         assignments : [ {
             name : "A1",
@@ -32,27 +21,48 @@ data = {
             issuedOn : "10/2/2019",
             submission: "15/2/2019"
         }]
-    }
-};
+    }, 
+    1 : {
+            name : "Subject-2",
+            teacher : "selma",
+            assignments : []
+        } 
+    };
 
-//addDataToSideBar();
-
+addDataToSideBar();
 addEventsToSideBar();
+addEventToNavBar(); //Experimental
 
-// Under Progress ... figure out a way to add the assingments ... priority : low 
-/*function addDataToSideBar() {
+function addDataToSideBar() {
     sidebar_element = document.getElementById("sidebar-li");
     for(index in data ) {
-        sidebar_element.innerHTML += " <span class = 'subject-li'><li class = 'subjects'> <button class= 'li-button' value =" + (index-1) + "> + </button>"
-        + data[index].name + "</li> <ul class = 'assignments-li' id = 'assignments-li'> <li> <a href='#'>" + data[index].assignments. 
-        <ul class = "assignments-li" id = "assignments-li">
-             <li> <a href="#"> A1 </a> </li>
-             <li> <a href= "#"> A2 </a> </li>
-        </ul></span>
-     
+        sidebar_element.innerHTML += " <span class = 'subject-li'><li class = 'subjects'> <button class= 'li-button' value =" + index + ">"+" + </button>"+ data[index].name + "</li> <ul class = 'assignments-li' id = 'assignments-li'> </ul></span>"
+        assignments_list = data[index].assignments;
+        list = document.getElementsByClassName("assignments-li")[index];
+        for(i = 0 ; i<assignments_list.length ; i++) {
+            list.innerHTML += "<li> <a href = '#' id = 'assignment-1'> " + assignments_list[i].name + "</a></li>" ;
+        }     
     }
-}*/
+}
 
+function addEventToNavBar() { // Experimental
+    navbar_dash = document.getElementById("dashboard-navbar");
+    navbar_dash.addEventListener("click", function() {
+        backToHome();
+    });
+}
+function backToHome() {
+    resetMainPage();
+    heading = document.getElementById("heading");
+    heading.innerHTML = "Recent Assignments" ;
+
+    main_block = document.getElementById("main-block");
+    main_block.innerHTML = " <table class='table'>"
+                         +"<tr><th> S.No </th><th> Name </th><th> Class </th><th> Subject </th><th> Given on </th>"
+                         +"<th> Submission </th><th> View </th></tr>"
+                         +"<tr><td> 1</td><td> Assignment-1 </td><td> IT-C </td><td> Cryptography and Network Security </td>"
+                         +"<td> 12/2/18</td><td> 24/2/18</td><td> <a href='#'> view </a> </td></tr>";
+}
 function addEventsToSideBar() {
     subjects = document.getElementsByClassName("subject-li");
     for(i = 0 ; i<subjects.length; i++ ) {
@@ -76,9 +86,10 @@ function addEventsToSideBar() {
        createNewAssignment();
    });
 
-   document.getElementById("assignment-1").addEventListener("click", function() {
-        openAssignment() //Experimental: should also send assignment name as parameter pin this for later...
+   document.getElementById("assignment-1").addEventListener("click", function() { // Might have to use getClassNames() instead of getElementById()
+        openAssignment() //Experimental: should also send assignment name as parameter pin this for later
    });
+
 }
 
 function createNewAssignment() { // REMINDER : Add the feature to upload the document 
@@ -128,7 +139,8 @@ function getDate() {
     return(date_arr.join("/")); 
 }
 
-function openAssignment() {// Issue : calling open assignment after creating new assignment changes layout 
+function openAssignment() {
+    resetMainPage();
     heading = document.getElementById("heading");
     heading.innerHTML = "<a href = '#' id = 'view' >View</a> | <a href = '#' id = 'submissions'> Submissions </a>";
 
@@ -165,4 +177,11 @@ function viewAssignmentSubmissions() {
                          + "<tr><td> 1</td> <td>std1</td> <td>15910xxxx </td> <td><a href ='#'>view</a> </td>"
                          +"<td> <input type = 'number' id = 'assignment-marks' style = width:50px;></input></td></tr>"
                          +"</table>"
+}
+
+function resetMainPage() {
+
+    document.getElementById("heading").style.marginTop = "30px" ;
+    document.getElementsByClassName("line")[0].hidden = false ;
+
 }
