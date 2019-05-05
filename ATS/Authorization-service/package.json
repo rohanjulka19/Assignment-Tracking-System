@@ -1,0 +1,17 @@
+{
+  "name": "authorization-service",
+  "version": "1.0.0",
+  "description": "For Authentication and Authorization",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rohan Julka",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^1.19.0",
+    "pg": "^7.10.0"
+  }
+}
