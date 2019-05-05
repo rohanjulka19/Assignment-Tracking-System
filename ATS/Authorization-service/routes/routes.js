@@ -13,6 +13,7 @@ router.get('/', function(req,res) {
 });
 
 router.get('/subjects', function(req,res) {
+    console.log('/subjects called');
     if(req.body.type == "student") {
         let std_class = req.body.class ;
         let std_sec = req.body.sec ;
@@ -24,8 +25,24 @@ router.get('/subjects', function(req,res) {
                     /* operator does not exist: "char"[] = text 
                      ON Subject.course_code = Subject_alloted...*/
 
-        pool.query(query , function(res,err) {
+        pool.query(query , [std_class , std_sec] ,function(res,err) {
 
+            if(err) {
+                console.log("Error in /select ", err);
+                res.status(400).send(err);
+            }
+            res.setHeader('content-type', 'application/json');
+            res.status(200).send(results.rows);
+        });
+    } else {
+        let teacher_id = req.body.teacher_id ;
+        let query = "SELECT Subjects.name , Subjects.course_code " + 
+                    "FROM Subjects" +
+                    "INNER JOIN  Subject_alloted" +
+                    "ON Subjects.course_code = Subject_alloted.course_code AND " +
+                    "Subject_alloted.teacher_id = $1"; 
+        pool.query = (query,[teacher_id],function(req,res) {
+            
             if(err) {
                 console.log("Error in /select ", err);
                 res.status(400).send(err);
@@ -50,7 +67,7 @@ router.post('/login',function(req,res) {
 			if (results.rowCount > 0) {
                 const token = jwt.sign({role : 'teacher'}, secret , {algorithm : 'HS256'});
                 console.log("TOKEN"+token); 
-                res.status(200).json({token})
+                res.status(200).json({token});
 				//res.redirect('/assignmentPage');
 			} else {
                 pool.query('SELECT * FROM student WHERE regno = ? AND password = ?', [username,password],
@@ -60,7 +77,9 @@ router.post('/login',function(req,res) {
                     }
                     if(results.rowCount > 0) {
                         generateJwtToken('student');
-                        res.redirect('/assignmentPage');
+                        console.log("TOKEN"+token); 
+                        res.status(200).json({token});
+                        //res.redirect('/assignmentPage');
                     }
                     else {
                         console.log('Wrong Username or Password');

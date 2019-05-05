@@ -1,1 +1,5 @@
 node_modules
+ATS/node_modules
+Assignment-service/node_modules
+Authorization-service/node_modules
+Quiz-service/node_modules
