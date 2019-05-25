@@ -6,17 +6,22 @@
     <link rel="stylesheet" href="/css/login-style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-   <div class = "login-form">
-       
-        <form action = "login" method = "post"  class = "form">
+   <div class = "login-form">    
+        <form id = "LoginForm" class = "form">
                 <h1 class = "heading"> Login </h1>
                 <label for  = "username"  class = "form-component"> Username </label><input name="username" type = "text" id = "username" class = "form-component" ></input>
                 <br>
                 <label for = "password"  class = "form-component"> Password </label>&nbsp<input name="password" type = "password" id = "password" class = "form-component"></input>
                 <br>
+                <label for = "selection" class = "form-component"> Choose Service </label>
+                <select id = "selection" name = "selection"> 
+                    <option id = 'assignment'> Assignment </option>
+                    <option id = 'quiz'> Quiz </option>
+                </select>
+                <br>
                 <button type = "submit" id = "submit-btn" class = "form-component submit-btn">Submit</button>
             </form>
    </div> 
-   
+   <script src = "/javascript/login.js"> </script>
 </body>
 </html>

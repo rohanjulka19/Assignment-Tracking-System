@@ -3,8 +3,9 @@ const router = express.Router();
 const path = require('path');
 const model = require('../models/models');
 const jwt = require('jsonwebtoken');
-const secret = require('../config');
-const pool = model.pool ;
+const config = require('../config');
+const secret = config.secret;
+//const model = model.model ;
 
 
 router.get('/', function(req,res) {
@@ -14,7 +15,9 @@ router.get('/', function(req,res) {
 
 router.get('/subjects', function(req,res) {
     console.log('/subjects called');
-    if(req.body.type == "student") {
+    
+    if(req.query.type == "student") {
+
         let std_class = req.body.class ;
         let std_sec = req.body.sec ;
         let query = "SELECT Subjects.name , Subjects.course_code " + 
@@ -25,7 +28,7 @@ router.get('/subjects', function(req,res) {
                     /* operator does not exist: "char"[] = text 
                      ON Subject.course_code = Subject_alloted...*/
 
-        pool.query(query , [std_class , std_sec] ,function(res,err) {
+        model.query(query , [std_class , std_sec] ,function(res,err) {
 
             if(err) {
                 console.log("Error in /select ", err);
@@ -34,43 +37,54 @@ router.get('/subjects', function(req,res) {
             res.setHeader('content-type', 'application/json');
             res.status(200).send(results.rows);
         });
-    } else {
-        let teacher_id = req.body.teacher_id ;
+    } else if(req.query.type == "teacher") {
+        console.log('calling teacher');
+        let teacher_id = req.query.teacher_id ;
+        console.log(teacher_id);
         let query = "SELECT Subjects.name , Subjects.course_code " + 
                     "FROM Subjects" +
-                    "INNER JOIN  Subject_alloted" +
-                    "ON Subjects.course_code = Subject_alloted.course_code AND " +
-                    "Subject_alloted.teacher_id = $1"; 
-        pool.query = (query,[teacher_id],function(req,res) {
-            
+                    " INNER JOIN  Subject_alloted " +
+                    " ON Subjects.course_code = Subject_alloted.subject_course_code AND " +
+                    "Subject_alloted.teacher_id = '101' "; 
+        console.log(query);
+        model.query(query , [] ,(err,result) => {
+    
             if(err) {
                 console.log("Error in /select ", err);
                 res.status(400).send(err);
             }
             res.setHeader('content-type', 'application/json');
-            res.status(200).send(results.rows);
+            res.status(200).send(result.rows);
         });
+        console.log('query complete');
     }
 });
 
 router.post('/login',function(req,res) {
     console.log("/login called");
+   // console.log("Request header" + req.headers + " req body " + req.body);
     let username = req.body.username;
-	let password = req.body.password; 
+    let password = req.body.password; 
+    console.log('username' + username +' passowrd' + password);
+    let select = req.body.selection ;
+   // console.log('Select ' + select) ; 
 	if (username && password) {
-    pool.query('SELECT * FROM teacher WHERE id = $1 AND password = $2', [username,password], 
+    model.query('SELECT * FROM teacher WHERE id = $1 AND password = $2', [username,password], 
     function(error, results) {
       if(error) {
         console.log("error ocurred",error);
       }
-      console.log(results);
+      //console.log(results);
 			if (results.rowCount > 0) {
-                const token = jwt.sign({role : 'teacher'}, secret , {algorithm : 'HS256'});
+                const token = jwt.sign({role : 'teacher' , user : username}, secret , {algorithm : 'HS256'});
                 console.log("TOKEN"+token); 
-                res.status(200).json({token});
-				//res.redirect('/assignmentPage');
+                let cookieData = 'auth=' + token ;
+                res.cookie('auth' , token );
+                res.setHeader('Set-Cookie' , 'auth=' + token + ';HttpOnly');
+
+                //res.redirect('/assignmentPage');
 			} else {
-                pool.query('SELECT * FROM student WHERE regno = ? AND password = ?', [username,password],
+                model.query('SELECT * FROM student WHERE regno = ? AND password = ?', [username,password],
                 function(error , results) {
                     if(error) {
                         console.log("Error ocurred", error);
@@ -85,9 +99,11 @@ router.post('/login',function(req,res) {
                         console.log('Wrong Username or Password');
                     }
                 });
-			}			            
-			res.end();
-		});
+            }	
+    
+        res.end(); 
+        });
+        
 	} else {
     //response.send('Please enter Username and Password!');
     //alert("Please Enter Username and Password");
