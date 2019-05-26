@@ -20,7 +20,7 @@ router.get('/subjects', function(req,res) {
 
         let std_class = req.body.class ;
         let std_sec = req.body.sec ;
-        let query = "SELECT Subjects.name , Subjects.course_code " + 
+        let query = "SELECT Subjects.name , Subjects.course_code , Subject_alloted.class , Subject_alloted.sec " + 
                     "FROM Subjects" +
                     "INNER JOIN  Subject_alloted" +
                     "ON Subjects.course_code = Subject_alloted.course_code AND " +
@@ -41,7 +41,7 @@ router.get('/subjects', function(req,res) {
         console.log('calling teacher');
         let teacher_id = req.query.teacher_id ;
         console.log(teacher_id);
-        let query = "SELECT Subjects.name , Subjects.course_code " + 
+        let query = "SELECT Subjects.name , Subjects.course_code , Subject_alloted.class , Subject_alloted.sec " + 
                     "FROM Subjects" +
                     " INNER JOIN  Subject_alloted " +
                     " ON Subjects.course_code = Subject_alloted.subject_course_code AND " +

@@ -75,3 +75,8 @@ ADD FOREIGN KEY (teacher_id) REFERENCES Teacher(id)
 ALTER TABLE Assignment_submissions
 ADD FOREIGN KEY (assignment_id) REFERENCES Assignment(id)
 ADD FOREIGN KEY (student_regno) REFERENCES Student(regno)
+
+INSERT INTO public.quiz(id, name, subject_course_code, teacher_id, start_time, duration, class, sec, quiz_data, quiz_url, total_marks)
+VALUES ('1001','Quiz1' , 'CS1101', '101','May 27 10:00:00 2019' , 10 , 'IT6', 'B', '{"a" :"hello" }', 'http://abc.xyz', 15);
+
+
